@@ -10,49 +10,49 @@ blueprint:
       selector:
         entity:
           domain: sensor
-    action_on_press:
+    action_on-press:
       name: on-press
       description: select action to run when you press I
       default: []
       selector:
         action: {}
-    action_off_press:
+    action_off-press:
       name: off-press
       description: select action to run when you press O
       default: []
       selector:
         action: {}
-    action_up_press:
+    action_up-press:
       name: up-press
       description: select action to run when you press UP
       default: []
       selector:
         action: {}
-    action_down_press:
+    action_down-press:
       name: down-press
       description: select action to run when you press DOWN
       default: []
       selector:
         action: {}
-    action_on_hold:
+    action_on-hold:
       name: on-hold
       description: select action to run when you hold I
       default: []
       selector:
         action: {}
-    action_off_hold:
+    action_off-hold:
       name: off-hold
       description: select action to run when you hold O
       default: []
       selector:
         action: {}
-    action_up_hold:
+    action_up-hold:
       name: up-hold
       description: select action to run when you hold UP
       default: []
       selector:
         action: {}
-    action_down_hold:
+    action_down-hold:
       name: down-hold
       description: select action to run when you hold DOWN
       default: []
@@ -68,26 +68,26 @@ action:
 - choose:
   - conditions:
     - '{{ command == ''on-press'' }}'
-    sequence: !input 'action_on_press'
+    sequence: !input 'action_on-press'
   - conditions:
     - '{{ command == ''off-press'' }}'
-    sequence: !input 'action_off_press'
+    sequence: !input 'action_off-press'
   - conditions:
     - '{{ command == ''up-press'' }}'
-    sequence: !input 'action_up_press'
+    sequence: !input 'action_up-press'
   - conditions:
     - '{{ command == ''down-press'' }}'
-    sequence: !input 'action_down_press'
+    sequence: !input 'action_down-press'
   - conditions:
     - '{{ command == ''on-hold'' }}'
-    sequence: !input 'action_on_hold'
+    sequence: !input 'action_on-hold'
   - conditions:
     - '{{ command == ''off-hold'' }}'
-    sequence: !input 'action_off_hold'
+    sequence: !input 'action_off-hold'
   - conditions:
     - '{{ command == ''up-hold'' }}'
-    sequence: !input 'action_up_hold'
+    sequence: !input 'action_up-hold'
   - conditions:
     - '{{ command == ''down-hold'' }}'
-    sequence: !input 'action_down_hold'
+    sequence: !input 'action_down-hold'
   default: []
