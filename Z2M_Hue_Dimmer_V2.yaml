@@ -1,129 +1,94 @@
 blueprint:
-  name: Zigbee2Mqtt Hue Dimmer Switch control v2
-  description: ''
+  name: Z2M - Hue Dimmer switch 4 buttons
+  description: 'Use the individual buttons of the Hue Dimmer Switch to control an action by either a click or a long press.
+  '
   domain: automation
   input:
-    dimmer_action:
-      name: Dimmer MQTT topic
-      description: 'type in your Dimmer MQTT topic (i.e. zigbee2mqtt/Dimmer/action)'
+    dimmer:
+      name: Hue Dimmer switch
+      description: Hue Dimmer switch to use (Zigbee2mqtt Action Sensor)
       selector:
-        text:
-    action_on_press:
-      name: on-press
-      description: select action to run when you press I
+        entity:
+          domain: sensor
+    button_1:
+      name: On Button - single click
+      description: Action to run on click of On button
+      default: []
       selector:
-        action:
-    action_off_press:
-      name: off-press
-      description: select action to run when you press O
+        action: {}
+    button_2:
+      name: Dim Up Button - single click
+      description: Action to run on click of Dim Up button
+      default: []
       selector:
-        action:
-    action_up_press:
-      name: up-press
-      description: select action to run when you press UP
+        action: {}
+    button_3:
+      name: Dim Down Button - single click
+      description: Action to run on click of Dim Down button
+      default: []
       selector:
-        action:
-    action_down_press:
-      name: down-press
-      description: select action to run when you press DOWN
+        action: {}
+    button_4:
+      name: Off Button - single click
+      description: Action to run on click of Off button
+      default: []
       selector:
-        action:
-    action_on_hold:
-      name: on-hold
-      description: select action to run when you hold I
+        action: {}
+    button_5:
+      name: On Button - long press
+      description: Action to run on long press of On button
+      default: []
       selector:
-        action:
-    action_off_hold:
-      name: off-hold
-      description: select action to run when you hold O
+        action: {}
+    button_6:
+      name: Dim Up Button - long press
+      description: Action to run on long press of Dim Up button
+      default: []
       selector:
-        action:
-    action_up_hold:
-      name: up-hold
-      description: select action to run when you hold UP
+        action: {}
+    button_7:
+      name: Dim Down Button - long press
+      description: Action to run on long press of Dim Down button
+      default: []
       selector:
-        action:
-    action_down_hold:
-      name: down-hold
-      description: select action to run when you hold DOWN
+        action: {}
+    button_8:
+      name: Off Button - long press
+      description: Action to run on long press of Off button
+      default: []
       selector:
-        action:
-
-trigger:
-  - platform: mqtt
-    topic: !input dimmer_action
-    payload: on-press
-    id: dimmer_on
-  - platform: mqtt
-    topic: !input dimmer_action
-    id: dimmer_off
-    payload: off-press
-  - platform: mqtt
-    topic: !input dimmer_action
-    id: dimmer_up
-    payload: up-press
-  - platform: mqtt
-    topic: !input dimmer_action
-    id: dimmer_down
-    payload: down-press
-  - platform: mqtt
-    topic: !input dimmer_action
-    id: dimmer_on_hold
-    payload: on-hold
-  - platform: mqtt
-    topic: !input dimmer_action
-    payload: off-hold
-    id: dimmer_off_hold
-  - platform: mqtt
-    topic: !input dimmer_action
-    id: dimmer_up_hold
-    payload: up-hold
-  - platform: mqtt
-    topic: !input dimmer_action
-    payload: down-hold
-    id: dimmer_down_hold
-
-action:
-  - choose:
-      - conditions:
-          - condition: trigger
-            id: dimmer_on
-        sequence:
-          !input action_on_press
-      - conditions:
-          - condition: trigger
-            id: dimmer_off
-        sequence:
-          !input action_off_press
-      - conditions:
-          - condition: trigger
-            id: dimmer_up
-        sequence:
-          !input action_up_press
-      - conditions:
-          - condition: trigger
-            id: dimmer_down          
-        sequence:
-          !input action_down_press
-      - conditions:
-          - condition: trigger
-            id: dimmer_on_hold
-        sequence:
-          !input action_on_hold
-      - conditions:
-          - condition: trigger
-            id: dimmer_off_hold
-        sequence:
-          !input action_off_hold
-      - conditions:
-          - condition: trigger
-            id: dimmer_up_hold
-        sequence:
-          !input action_up_hold
-      - conditions:
-          - condition: trigger
-            id: dimmer_down_hold
-        sequence:
-          !input action_down_hold
-    default: []
+        action: {}
 mode: restart
+max_exceeded: silent
+trigger:
+- platform: state
+  entity_id: !input 'dimmer'
+  attribute: action
+action:
+- variables:
+    command: '{{ trigger.to_state.state }}'
+- choose:
+  - conditions:
+    - '{{ command == ''on-press'' }}'
+    sequence: !input button_1
+  - conditions:
+    - '{{ command == ''up-press'' }}'
+    sequence: !input button_2
+  - conditions:
+    - '{{ command == ''down-press'' }}'
+    sequence: !input button_3
+  - conditions:
+    - '{{ command == ''off-press'' }}'
+    sequence: !input button_4
+  - conditions:
+    - '{{ command == ''on-hold'' }}'
+    sequence: !input button_5
+  - conditions:
+    - '{{ command == ''up-hold'' }}'
+    sequence: !input button_6
+  - conditions:
+    - '{{ command == ''down-hold'' }}'
+    sequence: !input button_7
+  - conditions:
+    - '{{ command == ''off-hold'' }}'
+    sequence: !input button_8
